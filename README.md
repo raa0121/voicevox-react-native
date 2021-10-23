@@ -12,6 +12,10 @@ expo アプリでQRコードを読み取ってください。
 VOICEVOX の run.exe を cmd から `--host=0.0.0.0` を付与して起動してください。  
 起動したPCのIPアドレスを、Settings のURL欄に入力してください。
 
+### 動作確認
+- [] iOS
+- [x] Android
+
 ## Requirements
 [expo](https://expo.io) アプリをインストールしてください。
 [iOS](https://apps.apple.com/jp/app/expo-go/id982107779) 
