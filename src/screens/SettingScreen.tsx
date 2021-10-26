@@ -1,60 +1,56 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import { ConfigurationParametersContext, styles } from '../';
-import {
-  Configuration,
-  ConfigurationParameters,
-  VoicevoxService
-} from '../services/VoicevoxService';
+import { ConfigurationContext, styles } from '../';
+import { Configuration, VoicevoxService } from '../services/VoicevoxService';
 
 const VoicevoxApi = VoicevoxService.VoicevoxApi;
 
 const useVersion = (): { version: string } => { // {{{
-  const [version, setVersion] = useState("");
-  const { config } = useContext(ConfigurationParametersContext);
+  const [version, setVersion] = useState('');
+  const { config } = useContext(ConfigurationContext);
 
   const [api, setApi] = useState(
-    new VoicevoxApi(new Configuration(config)),
+    new VoicevoxApi(config),
   );
 
   useEffect(() => {
-    setApi(new VoicevoxApi(new Configuration(config)));
+    setApi(new VoicevoxApi(config));
   }, [config]);
 
   useEffect(() => {
-    VoicevoxService.getVersion(api).then((v) => {
-      setVersion(v);
-    });
-  }, [api]);
+    if(Object.keys(api.configuration).length > 0) {
+      VoicevoxService.getVersion(api).then((v) => {
+        setVersion(v);
+      });
+    }
+  }, [config, api]);
 
   return { version };
 }; // }}}
 
-type versionProps = {
-  text: string
-}
-function Version(props: versionProps) { // {{{
+function Version() { // {{{
   const fontSize = 18;
   const paddingVertical = 6;
-  const { config } = useContext(ConfigurationParametersContext);
-  let message = 'URLを入れてください';
-  if (props.text != '') {
-    const version = useVersion().version;
-    message = 'VOICEVOX Version:' + version; 
-  }
+  useContext(ConfigurationContext);
+
+  const version = useVersion().version;
   return (
     <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>
-      {message}
+      {'VOICEVOX Version: '+ version}
     </Text>
   );
 } // }}}
 
 export function SettingScreen() {
   const [text, onChangeText] = useState('');
-  const context = useContext(ConfigurationParametersContext)
+  const context = useContext(ConfigurationContext);
+
+  const fontSize = 18;
+  const paddingVertical = 6;
   return (
     <View style={styles.container}>
+      <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>URLを入力してください</Text>
       <TextInput
         style={styles.input}
         onChangeText={onChangeText}
@@ -62,10 +58,10 @@ export function SettingScreen() {
         placeholder='http://192.168.1.XXX:50021'
       />
       <Button title='保存' onPress={async () => {
-        const config = new Configuration({ basePath: text } as ConfigurationParameters);
+        const config = new Configuration({ basePath: text });
         context.setConfig(config);
       }} />
-      <Version text={text} />
+      <Version />
       <StatusBar style='auto' />
     </View>
   );

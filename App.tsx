@@ -2,37 +2,32 @@ import { NotoSansJP_400Regular, useFonts } from '@expo-google-fonts/noto-sans-jp
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { ConfigurationParametersContext } from './src';
+import { ConfigurationContext } from './src';
 import { HomeScreen, SettingScreen } from './src/screens';
-import { ConfigurationParameters } from './src/services/VoicevoxService';
+import { Configuration } from './src/services/VoicevoxService';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  let [fontsLoaded] = useFonts({ NotoSansJP_400Regular });
-  const [config, setConfig] = useState<ConfigurationParameters>({} as ConfigurationParameters);
+  const [fontsLoaded] = useFonts({ NotoSansJP_400Regular });
+  const [config, setConfig] = useState<Configuration>({} as Configuration);
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
     return (
-      <ConfigurationParametersContext.Provider
+      <ConfigurationContext.Provider
         value={{ config: config, setConfig: setConfig }}>
         <NavigationContainer>
           <Tab.Navigator
             initialRouteName='Settings'
             screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
-                let iconName;
-
-                if (route.name === 'Home') {
-                  iconName = 'home';
-                } else if (route.name === 'Settings') {
-                  iconName = 'settings';
+              tabBarIcon: ({ color, size }) => {
+                if (route.name === 'Settings') {
+                  return <Ionicons name='settings' size={size} color={color} />;
                 }
-
-                return <Ionicons name={iconName} size={size} color={color} />;
+                return <Ionicons name='home' size={size} color={color} />;
               },
             })}
           >
@@ -40,7 +35,7 @@ export default function App() {
             <Tab.Screen name='Settings' component={SettingScreen} />
           </Tab.Navigator>
         </NavigationContainer>
-      </ConfigurationParametersContext.Provider>
+      </ConfigurationContext.Provider>
     );
   }
 }

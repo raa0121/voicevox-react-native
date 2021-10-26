@@ -2,7 +2,7 @@ import { Audio } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Picker, TextInput, View } from 'react-native';
-import { ConfigurationParametersContext, styles } from '../';
+import { ConfigurationContext, styles } from '../';
 import {
   Configuration,
   Speaker,
@@ -26,9 +26,10 @@ function SpeakerPicker(props: SpeakerPickerProps) { // {{{
     <View>
       <Picker
         selectedValue={props.selectedSpeaker}
-        onValueChange={(itemValue, itemIndex) =>
-          props.setSelectedSpeaker(itemValue)
-        }
+        onValueChange={(itemValue) => {
+          props.setSelectedSpeaker(itemValue);
+          props.setSelectedStyle(itemValue.styles[0].id);
+        }}
         style={{ height: 50, width: 150 }}>
         {props.speakers.map((speaker: Speaker) => {
           return (
@@ -42,7 +43,7 @@ function SpeakerPicker(props: SpeakerPickerProps) { // {{{
       </Picker>
       <Picker
         selectedValue={props.selectedStyle}
-        onValueChange={(itemValue, itemIndex) =>
+        onValueChange={(itemValue) =>
           props.setSelectedStyle(itemValue)
         }
         style={{ height: 50, width: 150 }}>
@@ -66,7 +67,7 @@ export function HomeScreen() {
   const [selectedStyle, setSelectedStyle] = useState(0);
   const [text, onChangeText] = useState('');
   const [sound, setSound] = useState<Audio.Sound>();
-  const { config } = useContext(ConfigurationParametersContext);
+  const { config } = useContext(ConfigurationContext);
 
   const [api, setApi] = useState(
     new VoicevoxApi(new Configuration(config)),
@@ -80,7 +81,7 @@ export function HomeScreen() {
   useEffect(() => {
     VoicevoxService.getSpeakers(api).then(value => {
       setSpeakers(value);
-    })
+    });
   }, [api]);
 
   useEffect(() => {
