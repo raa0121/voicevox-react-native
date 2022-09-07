@@ -1,20 +1,30 @@
 import { NotoSansJP_400Regular, useFonts } from '@expo-google-fonts/noto-sans-jp';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from 'expo-splash-screen';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ConfigurationContext } from './src';
 import { HomeScreen, SettingScreen } from './src/screens';
 import { Configuration } from './src/services/VoicevoxService';
+import { useEvent } from 'react-native-reanimated';
 
 const Tab = createBottomTabNavigator();
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [fontsLoaded] = useFonts({ NotoSansJP_400Regular });
   const [config, setConfig] = useState<Configuration>({} as Configuration);
+
+  useEffect(() => {
+    !fontsLoaded
+    ? SplashScreen.preventAutoHideAsync()
+    : SplashScreen.hideAsync()
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null;
   } else {
     return (
       <ConfigurationContext.Provider
