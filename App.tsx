@@ -11,8 +11,6 @@ import { useEvent } from 'react-native-reanimated';
 
 const Tab = createBottomTabNavigator();
 
-SplashScreen.preventAutoHideAsync();
-
 export default function App() {
   const [fontsLoaded] = useFonts({ NotoSansJP_400Regular });
   const [config, setConfig] = useState<Configuration>({} as Configuration);
