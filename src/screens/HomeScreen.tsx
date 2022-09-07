@@ -1,7 +1,8 @@
 import { Audio } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Picker, TextInput, View } from 'react-native';
+import { Button, TextInput, View } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { ConfigurationContext, styles } from '../';
 import {
   Configuration,
