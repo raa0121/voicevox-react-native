@@ -72,9 +72,6 @@ async function save(data: string) {
   });
 }
 
-async function openFile() {
-}
-
 export function HomeScreen() {
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>({ styles: [] as SpeakerStyle[] } as Speaker);
