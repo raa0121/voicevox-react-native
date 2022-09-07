@@ -2,7 +2,7 @@ import { Audio } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
 import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, TextInput, View } from 'react-native';
+import { Button, Text, TextInput, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ConfigurationContext, styles } from '../';
@@ -26,15 +26,20 @@ type SpeakerPickerProps = { // {{{
 }// }}}
 
 function SpeakerPicker(props: SpeakerPickerProps) { // {{{
+  const fontSize = 18;
+  const paddingVertical = 6;
   return (
     <View>
+      <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>
+        話者
+      </Text>
       <Picker
         selectedValue={props.selectedSpeaker}
         onValueChange={(itemValue) => {
           props.setSelectedSpeaker(itemValue);
           props.setSelectedStyle(itemValue.styles[0].id);
         }}
-        style={{ height: 50, width: 150 }}>
+        style={{ width: 200 }}>
         {props.speakers.map((speaker: Speaker) => {
           return (
             <Picker.Item
@@ -45,12 +50,15 @@ function SpeakerPicker(props: SpeakerPickerProps) { // {{{
           );
         })}
       </Picker>
+      <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>
+        スタイル
+      </Text>
       <Picker
         selectedValue={props.selectedStyle}
         onValueChange={(itemValue) =>
           props.setSelectedStyle(itemValue)
         }
-        style={{ height: 50, width: 150 }}>
+        style={{ width: 200 }}>
         {props.selectedSpeaker.styles.map((style: SpeakerStyle) => {
           return (
             <Picker.Item
