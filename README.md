@@ -13,7 +13,7 @@ VOICEVOX の run.exe を cmd から `--host=0.0.0.0` を付与して起動して
 起動したPCのIPアドレスを、Settings のURL欄に入力してください。
 
 ### 動作確認
-- [ ] iOS
+- [x] iOS
 - [x] Android
 
 ## Requirements

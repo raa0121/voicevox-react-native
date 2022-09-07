@@ -9,11 +9,13 @@
   },
   "dependencies": {
     "@expo-google-fonts/noto-sans-jp": "^0.2.0",
+    "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-picker/picker": "^2.4.2",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "expo": "^46.0.0",
     "expo-av": "~12.0.4",
+    "expo-file-system": "~14.1.0",
     "expo-font": "~10.2.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",

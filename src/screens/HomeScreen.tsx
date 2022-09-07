@@ -1,8 +1,10 @@
 import { Audio } from 'expo-av';
 import { StatusBar } from 'expo-status-bar';
+import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, TextInput, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ConfigurationContext, styles } from '../';
 import {
   Configuration,
@@ -12,6 +14,7 @@ import {
 } from '../services/VoicevoxService';
 
 const VoicevoxApi = VoicevoxService.VoicevoxApi;
+const OutputPath = FileSystem.documentDirectory + 'output.wav';
 
 type SpeakerPickerProps = { // {{{
   speakers: Speaker[];
@@ -62,6 +65,16 @@ function SpeakerPicker(props: SpeakerPickerProps) { // {{{
   );
 }// }}}
 
+async function save(data: string) {
+  data = data.replace("data:application/octet-stream;base64,", "").replace("data:audio/wav;base64,", "");
+  await FileSystem.writeAsStringAsync(OutputPath, data, {
+    encoding: FileSystem.EncodingType.Base64,
+  });
+}
+
+async function openFile() {
+}
+
 export function HomeScreen() {
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker>({ styles: [] as SpeakerStyle[] } as Speaker);
@@ -104,7 +117,8 @@ export function HomeScreen() {
         const wavfile = await VoicevoxService.postSynthesis(api, selectedStyle, audioQuery);
         const reader = new FileReader();
         reader.onload = async () => {
-          const { sound } = await Audio.Sound.createAsync({ uri: reader.result as string });
+          await save(reader.result as string);
+          const { sound } = await Audio.Sound.createAsync({ uri: OutputPath });
           setSound(sound);
           await sound.playAsync();
         };
