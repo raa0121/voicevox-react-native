@@ -28,24 +28,30 @@ type SpeakerPickerProps = { // {{{
 function SpeakerPicker(props: SpeakerPickerProps) { // {{{
   const fontSize = 18;
   const paddingVertical = 6;
+
+  const onChangeSpearker = (itemValue: string) => {
+    const newSelectedSpearker = props.speakers.find(spearker => spearker.speakerUuid === itemValue)
+    if(newSelectedSpearker) {
+      props.setSelectedSpeaker(newSelectedSpearker);
+      props.setSelectedStyle(newSelectedSpearker.styles[0].id);
+    }
+  }
+
   return (
     <View>
       <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>
         話者
       </Text>
       <Picker
-        selectedValue={props.selectedSpeaker}
-        onValueChange={(itemValue) => {
-          props.setSelectedSpeaker(itemValue);
-          props.setSelectedStyle(itemValue.styles[0].id);
-        }}
+        selectedValue={props.selectedSpeaker.speakerUuid}
+        onValueChange={onChangeSpearker}
         style={{ width: 200 }}>
         {props.speakers.map((speaker: Speaker) => {
           return (
             <Picker.Item
               key={speaker.speakerUuid}
               label={speaker.name}
-              value={speaker}
+              value={speaker.speakerUuid}
             />
           );
         })}
