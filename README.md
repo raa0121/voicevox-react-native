@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-expo start
+npx expo start
 ```
 expo アプリでQRコードを読み取ってください。
 
@@ -23,6 +23,7 @@ VOICEVOX の run.exe を cmd から `--host=0.0.0.0` を付与して起動して
 
 ## Installation
 ```
+npm install -g expo-cli
 npm install
 ```
 ## License
