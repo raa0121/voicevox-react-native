@@ -88,13 +88,21 @@ export function HomeScreen() {
   const [sound, setSound] = useState<Audio.Sound>();
   const { config } = useContext(ConfigurationContext);
 
-  const [api, setApi] = useState(
-    new VoicevoxApi(new Configuration(config)),
+  const [configuration, setConfiguracion] = useState(
+    new Configuration(config),
   );
 
   useEffect(() => {
-    setApi(new VoicevoxApi(new Configuration(config)));
+    setConfiguracion(new Configuration(config));
   }, [config]);
+
+  const [api, setApi] = useState(
+    new VoicevoxApi({} as Configuration),
+  );
+
+  useEffect(() => {
+    setApi(new VoicevoxApi(configuration));
+  }, [configuration]);
 
 
   useEffect(() => {
