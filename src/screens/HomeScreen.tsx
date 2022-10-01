@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as FileSystem from 'expo-file-system';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { CheckIcon, Select } from "native-base";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ConfigurationContext, styles } from '../';
 import {
@@ -42,39 +42,43 @@ function SpeakerPicker(props: SpeakerPickerProps) { // {{{
       <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>
         話者
       </Text>
-      <Picker
+      <Select
+        minWidth="200"
         selectedValue={props.selectedSpeaker.speakerUuid}
         onValueChange={onChangeSpearker}
-        style={{ width: 200 }}>
+        _selectedItem={{ endIcon: <CheckIcon size={5} /> }}
+        >
         {props.speakers.map((speaker: Speaker) => {
           return (
-            <Picker.Item
+            <Select.Item
               key={speaker.speakerUuid}
               label={speaker.name}
               value={speaker.speakerUuid}
             />
           );
         })}
-      </Picker>
+      </Select>
       <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>
         スタイル
       </Text>
-      <Picker
+      <Select
+        minWidth="200"
         selectedValue={props.selectedStyle}
         onValueChange={(itemValue) =>
           props.setSelectedStyle(itemValue)
         }
-        style={{ width: 200 }}>
+        _selectedItem={{ endIcon: <CheckIcon size={5} /> }}
+        >
         {props.selectedSpeaker.styles.map((style: SpeakerStyle) => {
           return (
-            <Picker.Item
+            <Select.Item
               key={style.id}
               label={style.name}
               value={style.id}
             />
           );
         })}
-      </Picker>
+      </Select>
     </View>
   );
 }// }}}

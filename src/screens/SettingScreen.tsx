@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native';
+import { CheckIcon, Select } from "native-base";
 import { ConfigurationContext, styles } from '../';
 import { Configuration, VoicevoxService } from '../services/VoicevoxService';
 
