@@ -51,7 +51,11 @@ export function SettingScreen() {
   const paddingVertical = 6;
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize, paddingVertical, fontFamily: 'NotoSansJP_400Regular' }}>URLを入力してください</Text>
+      <Text style={{
+        fontSize,
+          paddingVertical,
+          fontFamily: 'NotoSansJP_400Regular'
+      }}>URLを入力してください</Text>
       <TextInput
         style={styles.input}
         onChangeText={onChangeText}
